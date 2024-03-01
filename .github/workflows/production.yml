@@ -23,4 +23,4 @@ jobs:
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --prod --skip-domain --token=${{ secrets.VERCEL_TOKEN }}
       - name: Promote deployment to custom domains
-        run : vercel promote https://github-actions-production.vercel.app
+        run : vercel promote https://github-actions-production.vercel.app --token=${{ secrets.VERCEL_TOKEN }}
