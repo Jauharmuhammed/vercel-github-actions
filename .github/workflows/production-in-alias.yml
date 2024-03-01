@@ -20,12 +20,7 @@ jobs:
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
       - name: Build Project Artifacts
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Install jq
-        run: sudo apt-get install jq  
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --prod --skip-domain --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Get Deployment URL
-        id: get-url
-        run: echo "DEPLOYMENT_URL=$(vercel list --token=${{ secrets.VERCEL_TOKEN }} | jq -r '.deployments[] | select(.meta.projectId == "${{ secrets.VERCEL_PROJECT_ID }}") | .url' | head -1)" >> $GITHUB_ENV
       - name: Alias Deployment
-        run: vercel alias set ${{ env.DEPLOYMENT_URL }} https://github-actions-prod-in.vercel.app --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel alias set github-actions-prod-in.vercel.app --token=${{ secrets.VERCEL_TOKEN }}
