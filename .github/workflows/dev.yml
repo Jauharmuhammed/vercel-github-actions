@@ -21,6 +21,11 @@ jobs:
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --skip-domain --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Point deployment to custom domain
-        run : vercel alias set github-actions-dev.vercel.app --token=${{ secrets.VERCEL_TOKEN }}
+        id: deploy
+        run: |
+          DEPLOYMENT_URL=$(vercel deploy --prebuilt --skip-domain --token=${{ secrets.VERCEL_TOKEN }})
+          echo "::set-output name=url::$DEPLOYMENT_URL"
+      - name: Log Deployment URL
+        run: echo '${{ toJSON(steps.deploy.outputs) }}'
+      - name: Alias Deployment
+        run: vercel alias set ${{ steps.deploy.outputs.url }} github-actions-prod.vercel.app --token=${{ secrets.VERCEL_TOKEN }}
