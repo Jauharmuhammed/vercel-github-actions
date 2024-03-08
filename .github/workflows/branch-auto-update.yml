@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  DEPLOY_HOOK: ${{ secrets.DEPLOY_HOOK }}
+  DEPLOY_HOOK: ${{ vars.DEPLOY_HOOK }}
 
 jobs:
   push:
